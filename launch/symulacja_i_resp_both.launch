@@ -1,0 +1,52 @@
+<launch>
+  <param name="model" value="burger" />
+  <arg name="urdf_file_follower" default="$(find xacro)/xacro --inorder '$(find pkmgr)/urdf/turtlebot3_burger_picam.urdf.xacro'" />
+  <arg name="urdf_file_leader" default="$(find xacro)/xacro --inorder '$(find pkmgr)/urdf/turtlebot3_burger_leader.urdf.xacro'" />
+  <param name="follower_robot_description" command="$(arg urdf_file_follower)" />
+  <param name="leader_robot_description" command="$(arg urdf_file_leader)" />
+  <arg name="multi_robot_name_follower" default="follower"/>
+  <arg name="multi_robot_name_leader" default="leader"/>
+  <arg name="set_lidar_frame_id" default="base_scan"/> <!-- moze byc konflikt tf -->
+
+  <arg name="x_pos_follower" default="0.0"/>
+  <arg name="y_pos_follower" default="0.0"/>
+  <arg name="z_pos_follower" default="0.0"/>
+
+  <arg name="x_pos_leader" default="2.0"/>
+  <arg name="y_pos_leader" default="0.0"/>
+  <arg name="z_pos_leader" default="0.0"/>  
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/empty.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <node name="turtlebot3_fake_follower" pkg="turtlebot3_fake" type="turtlebot3_fake_node" output="screen" />
+  <node name="turtlebot3_fake_leader" pkg="turtlebot3_fake" type="turtlebot3_fake_node" output="screen" />
+
+  <node name="robot_state_publisher_follower" pkg="robot_state_publisher" type="robot_state_publisher">
+    <remap from="robot_description" to="follower_robot_description" />
+    <remap from="joint_states" to="follower_joint_states" />
+    <param name="publish_frequency" type="double" value="50.0" />
+    <param name="tf_prefix" value="$(arg multi_robot_name_follower)"/>
+  </node>
+  <node name="spawn_follower" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3_burger_picam -x $(arg x_pos_follower) -y $(arg y_pos_follower) -z $(arg z_pos_follower) -param follower_robot_description" />
+  
+
+  <node name="robot_state_publisher_leader" pkg="robot_state_publisher" type="robot_state_publisher">
+    <remap from="robot_description" to="leader_robot_description" />
+    <remap from="joint_states" to="leader_joint_states" />
+    <param name="publish_frequency" type="double" value="50.0" />
+    <param name="tf_prefix" value="$(arg multi_robot_name_leader)"/>
+  </node>
+  <node name="spawn_leader" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3_burger_leader -x $(arg x_pos_leader) -y $(arg y_pos_leader) -z $(arg z_pos_leader) -param leader_robot_description" />
+
+
+  <node name="rviz" pkg="rviz" type="rviz" args="" />
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pkmgr)/rviz/turtlebot3_fake.rviz" /> -->
+
+</launch>
