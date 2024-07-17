@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="turtlebot3_burger_sim" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="follower" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="laser_visual" default="false"/>
   <xacro:arg name="camera_visual" default="false"/>
   <xacro:arg name="imu_visual"   default="false"/>
@@ -49,9 +49,9 @@
   </gazebo>
 
   <gazebo>
-    <plugin name="turtlebot3_burger_controller" filename="libgazebo_ros_diff_drive.so">
+    <plugin name="follower_controller_plugin" filename="libgazebo_ros_diff_drive.so">
       <commandTopic>follower/cmd_vel</commandTopic>
-      <odometryTopic>follower/odom</odometryTopic>
+      <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <odometrySource>world</odometrySource>
       <publishOdomTF>true</publishOdomTF>
@@ -67,16 +67,16 @@
       <wheelDiameter>0.066</wheelDiameter>
       <wheelAcceleration>1</wheelAcceleration>
       <wheelTorque>10</wheelTorque>
-      <rosDebugLevel>Debug</rosDebugLevel>
+      <rosDebugLevel>na</rosDebugLevel>
     </plugin>
   </gazebo>
 
   <gazebo>
-    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+    <plugin name="follower_imu_plugin" filename="libgazebo_ros_imu.so">
       <alwaysOn>true</alwaysOn>
       <bodyName>imu_link</bodyName>
       <frameName>imu_link</frameName>
-      <topicName>follower/imu</topicName>
+      <topicName>imu</topicName>
       <serviceName>follower/imu_service</serviceName>
       <gaussianNoise>0.0</gaussianNoise>
       <updateRate>0</updateRate>
@@ -126,8 +126,8 @@
           <stddev>0.01</stddev>
         </noise>
       </ray>
-      <plugin name="gazebo_ros_lds_lfcd_controller" filename="libgazebo_ros_laser.so">
-        <topicName>follower/scan</topicName>
+      <plugin name="follower_gazebo_ros_lds_lfcd_controller" filename="libgazebo_ros_laser.so">
+        <topicName>scan</topicName>
         <frameName>base_scan</frameName>
       </plugin>
     </sensor>
@@ -149,7 +149,7 @@
               <far>100</far>
           </clip>
       </camera>
-      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+      <plugin name="follower_camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>30.0</updateRate>
         <cameraName>camera</cameraName>

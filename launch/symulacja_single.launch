@@ -1,0 +1,70 @@
+<launch>
+  <param name="model" value="burger" />
+  <arg name="follower_tb3"  default="follower"/>
+  <arg name="leader_tb3" default="leader"/>
+  
+  <arg name="urdf_file_leader" default="$(find xacro)/xacro --inorder '$(find pkmgr)/urdf/turtlebot3_burger_leader.urdf.xacro'" />
+  <!-- <param name="leader_robot_description" command="$(arg urdf_file_leader)" /> -->
+  <arg name="x_pos_follower" default="0.0"/>
+  <arg name="y_pos_follower" default="0.0"/>
+  <arg name="z_pos_follower" default="0.0"/>
+
+  <arg name="urdf_file_follower" default="$(find xacro)/xacro --inorder '$(find pkmgr)/urdf/turtlebot3_burger_picam.urdf.xacro'" />
+  <!-- <param name="follower_robot_description" command="$(arg urdf_file_follower)" /> -->
+  <arg name="x_pos_leader" default="2.0"/>
+  <arg name="y_pos_leader" default="0.0"/>
+  <arg name="z_pos_leader" default="0.0"/>  
+
+  <arg name="set_lidar_frame_id" default="base_scan"/> <!-- moze byc konflikt tf -->
+
+  
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/empty.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <group ns = "$(arg follower_tb3)">
+    <param name="robot_description" command="$(arg urdf_file_follower)" />
+    
+    <node name="robot_state_publisher_follower" pkg="robot_state_publisher" type="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="50.0" />
+      <param name="tf_prefix" value="$(arg follower_tb3)"/>
+    </node>
+
+    <node name="spawn_follower" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3_burger_picam -x $(arg x_pos_follower) -y $(arg y_pos_follower) -z $(arg z_pos_follower) -param robot_description" />
+
+    <!-- <node name="turtlebot3_fake_follower" pkg="turtlebot3_fake" type="turtlebot3_fake_follower" output="screen">
+      <param name="robot_name" value="$(arg follower_tb3)" />
+    </node> -->
+
+
+  </group>
+
+  <group ns = "$(arg leader_tb3)">
+    <param name="robot_description" command="$(arg urdf_file_leader)" />
+
+    <!-- <node name="robot_state_publisher_leader" pkg="robot_state_publisher" type="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="50.0" />
+      <param name="tf_prefix" value="$(arg leader_tb3)"/>
+    </node> -->
+
+    <!-- <node name="spawn_leader" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3_burger_leader -x $(arg x_pos_leader) -y $(arg y_pos_leader) -z $(arg z_pos_leader) -param robot_description" /> -->
+
+    <!-- <node name="turtlebot3_fake_leader" pkg="turtlebot3_fake" type="turtlebot3_fake_leader" output="screen">
+      <param name="robot_name" value="$(arg leader_tb3)" />
+      <param name="joint_states_frame" value="leader/base_footprint" />
+      <param name="odom_frame" value="odom" />
+      <param name="base_frame" value="leader/base_footprint" />
+    </node> -->
+
+  </group>
+
+
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="" /> -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pkmgr)/rviz/both_v2.rviz" />
+
+</launch>
