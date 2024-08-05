@@ -1,0 +1,9 @@
+<launch>
+    <!-- Launch the joy node to read the Xbox controller inputs -->
+    <node pkg="joy" type="joy_node" name="joy_node" output="screen">
+        <param name="dev" value="/dev/input/js0"/>
+    </node>
+
+    <!-- Launch the teleop script -->
+    <node pkg="pkmgr" type="leader_pad.py" name="teleop_xbox" output="screen"/>
+</launch>
