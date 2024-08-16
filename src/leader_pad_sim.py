@@ -19,7 +19,7 @@ class XboxTeleop:
 
         # Linear and angular speed multipliers
         self.linear_speed = 0.1
-        self.angular_speed = 1.4
+        self.angular_speed = 0.6
 
     def joy_callback(self, data):
         self.twist.linear.x = self.linear_speed * data.axes[self.axis_linear]
