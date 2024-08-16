@@ -1,0 +1,51 @@
+<launch>
+
+    <arg name="markerFrontId"   default="1"/>
+    <arg name="markerRearId"    default="3"/>
+    <arg name="markerRightId"   default="2"/>
+    <arg name="markerLeftId"    default="4"/>
+    <arg name="markerSize"      default="0.12"/>
+
+    <arg name="dct_normalization" default="False" />
+    <arg name="dct_filter_size"   default="2" />
+    
+    <arg name="marker_front_frame"  default="marker_przod" />
+    <arg name="marker_rear_frame"   default="marker_tyl" />
+
+    <arg name="marker_right_frame"  default="marker_prawo" />
+    <arg name="marker_left_frame"  default="marker_lewo" />
+
+
+    <node pkg="aruco_ros" type="double" name="aruco_front_rear">    
+        <remap from="/camera_info" to="/tb3_1/camera/rgb/camera_info" />
+        <remap from="/image" to="/tb3_1/camera/rgb/image_raw" />
+        <remap from="pose" to="/front_pose" />
+        <remap from="pose2" to="/rear_pose" />
+        <param name="image_is_rectified" value="True"/>
+        <param name="marker_size" value="$(arg markerSize)"/>
+        <param name="marker_id1" value="$(arg markerFrontId)"/>
+        <param name="marker_id2" value="$(arg markerRearId)"/>
+        <param name="normalizeImage" value="$(arg dct_normalization)"/>
+        <param name="dct_components_to_remove" value="$(arg dct_filter_size)"/>
+        <param name="parent_name" value="front_rear_gazebo_camera_optical_frame"/>
+        <param name="child_name1" value="$(arg marker_front_frame)" />
+        <param name="child_name2" value="$(arg marker_rear_frame)" />
+    </node>
+
+    <node pkg="aruco_ros" type="double" name="aruco_sides">    
+        <remap from="/camera_info" to="/tb3_1/camera/rgb/camera_info" />
+        <remap from="/image" to="/tb3_1/camera/rgb/image_raw" />
+        <remap from="pose" to="/right_pose" />
+        <remap from="pose2" to="/left_pose" />
+        <param name="image_is_rectified" value="True"/>
+        <param name="marker_size" value="$(arg markerSize)"/>
+        <param name="marker_id1" value="$(arg markerRightId)"/>
+        <param name="marker_id2" value="$(arg markerLeftId)"/>
+        <param name="normalizeImage" value="$(arg dct_normalization)"/>
+        <param name="dct_components_to_remove" value="$(arg dct_filter_size)"/>
+        <param name="parent_name" value="sides_gazebo_camera_optical_frame"/>
+        <param name="child_name1" value="$(arg marker_right_frame)" />
+        <param name="child_name2" value="$(arg marker_left_frame)" />
+    </node>
+
+</launch>
