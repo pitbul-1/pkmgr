@@ -33,7 +33,7 @@ class FollowerRobot:
         # PID gains for orientation angle correction
         self.kp_orientation = 1.0
         self.ki_orientation = 0.0
-        self.kd_orientation = 0.2
+        self.kd_orientation = 0.05
         
         # Subscribers and Publishers
         self.pose_sub = rospy.Subscriber('/aruco_simple/pose2', Pose, self.pose_callback)
