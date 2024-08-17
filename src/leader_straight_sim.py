@@ -19,7 +19,7 @@ def move_straight():
     move_cmd.angular.z = 0.0  # Set angular speed (rad/s)
 
     # Define the time to move in seconds
-    move_time = 5  # Move for 5 seconds
+    move_time = 10  # Move for 5 seconds
     start_time = rospy.Time.now()
 
     rospy.loginfo("Robot moving straight...")
