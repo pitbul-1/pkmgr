@@ -2,40 +2,49 @@
 
 import rospy
 from geometry_msgs.msg import Twist
+import math
 
 def move_straight():
     # Initialize the ROS node
-    rospy.init_node('move_straight', anonymous=True)
-
-    # Create a publisher to the cmd_vel topic
-    cmd_vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
-
-    # Set the rate to publish the message
+    rospy.init_node('turtlebot3_straight', anonymous=True)
+    
+    # Publisher to the /cmd_vel topic to control the robot's velocity
+    vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+    
+    # Define the rate (10 Hz)
     rate = rospy.Rate(10)  # 10 Hz
+    
+    # Define the Twist message to set linear and angular velocities
+    vel_msg = Twist()
 
-    # Create a Twist message and set the linear speed
-    move_cmd = Twist()
-    move_cmd.linear.x = 0.1  # Set linear speed (m/s)
-    move_cmd.angular.z = 0.0  # Set angular speed (rad/s)
+    # Set linear velocity (v) and angular velocity (w) to move in a circle
+    duration = 40.0  # seconds
+    linear_speed = 0.1  # meters per second (you can adjust this value)
+    angular_speed = 0.0  # rad/s, v = r * w
 
-    # Define the time to move in seconds
-    move_time = 10  # Move for 5 seconds
-    start_time = rospy.Time.now()
+    # Set the velocity in the Twist message
+    vel_msg.linear.x = linear_speed
+    vel_msg.angular.z = angular_speed
 
-    rospy.loginfo("Robot moving straight...")
-
-    while rospy.Time.now() - start_time < rospy.Duration(move_time):
-        # Publish the Twist message
-        cmd_vel_pub.publish(move_cmd)
+    # Move the robot in a circle for 10 seconds
+    start_time = rospy.Time.now().to_sec()
+    while start_time == 0:
+        start_time = rospy.Time.now().to_sec()
+    
+    while rospy.Time.now().to_sec() - start_time < duration:
+        elapsed_time = rospy.Time.now().to_sec() - start_time
+        print("Elapsed time: {:.2f} seconds".format(elapsed_time))
+        # Publish the velocity command
+        vel_pub.publish(vel_msg)
+        # Sleep for a while before the next iteration
         rate.sleep()
 
-    # Stop the robot after moving for the specified time
-    move_cmd.linear.x = 0.0
-    cmd_vel_pub.publish(move_cmd)
+    # Stop the robot when Ctrl+C is pressed
+    vel_msg.linear.x = 0
+    vel_msg.angular.z = 0
+    vel_pub.publish(vel_msg)
     rospy.loginfo("Robot stopped.")
 
+
 if __name__ == '__main__':
-    try:
-        move_straight()
-    except rospy.ROSInterruptException:
-        pass
+    move_straight()

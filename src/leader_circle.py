@@ -4,44 +4,48 @@ import rospy
 from geometry_msgs.msg import Twist
 import math
 
-def move_in_circle(radius, linear_speed):
+def move_circle():
+    # Initialize the ROS node
     rospy.init_node('turtlebot3_circle', anonymous=True)
-    cmd_vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+    
+    # Publisher to the /cmd_vel topic to control the robot's velocity
+    vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+    
+    # Define the rate (10 Hz)
+    rate = rospy.Rate(10)  # 10 Hz
+    
+    # Define the Twist message to set linear and angular velocities
+    vel_msg = Twist()
 
-    rate = rospy.Rate(10) # 10 Hz
+    # Set linear velocity (v) and angular velocity (w) to move in a circle
+    duration = 30.0  # seconds
+    radius = 1.0  # meter
+    linear_speed = 0.1  # meters per second (you can adjust this value)
+    angular_speed = linear_speed / radius  # rad/s, v = r * w
 
-    twist = Twist()
-    twist.linear.x = linear_speed
-    twist.linear.y = 0.0
-    twist.linear.z = 0.0
-    twist.angular.x = 0.0
-    twist.angular.y = 0.0
+    # Set the velocity in the Twist message
+    vel_msg.linear.x = linear_speed
+    vel_msg.angular.z = angular_speed
 
-    # Calculate the angular velocity based on the linear speed and radius
-    twist.angular.z = linear_speed / radius
-
-    start_time = rospy.Time.now()  # Record the start time
-
-    while not rospy.is_shutdown():
-        current_time = rospy.Time.now()
-        elapsed_time = (current_time - start_time).to_sec()
-
-        if elapsed_time < 20:  # Check if 20 seconds have passed
-            cmd_vel_pub.publish(twist)
-        else:
-            twist.linear.x = 0.0  # Stop the robot
-            twist.angular.z = 0.0
-            cmd_vel_pub.publish(twist)
-            break
-
+    # Move the robot in a circle for 10 seconds
+    start_time = rospy.Time.now().to_sec()
+    while start_time == 0:
+        start_time = rospy.Time.now().to_sec()
+    
+    while rospy.Time.now().to_sec() - start_time < duration:
+        elapsed_time = rospy.Time.now().to_sec() - start_time
+        print("Elapsed time: {:.2f} seconds".format(elapsed_time))
+        # Publish the velocity command
+        vel_pub.publish(vel_msg)
+        # Sleep for a while before the next iteration
         rate.sleep()
 
-if __name__ == '__main__':
-    try:
-        # Define the radius and linear speed
-        radius = 0.4  # meters
-        linear_speed = 0.1  # meters per second
+    # Stop the robot when Ctrl+C is pressed
+    vel_msg.linear.x = 0
+    vel_msg.angular.z = 0
+    vel_pub.publish(vel_msg)
+    rospy.loginfo("Robot stopped.")
 
-        move_in_circle(radius, linear_speed)
-    except rospy.ROSInterruptException:
-        pass
+
+if __name__ == '__main__':
+    move_circle()

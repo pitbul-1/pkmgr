@@ -164,7 +164,8 @@
   
   
   <joint name="camera_joint" type="fixed">
-    <origin xyz="0.02 -0.011 0.1" rpy="0 0 0"/>
+    <origin xyz="0.02 -0.057 0.1" rpy="0 0 0"/>
+    <!-- <origin xyz="0.02 -0.011 0.1" rpy="0 0 0"/> -->
     <parent link="base_link"/>
     <child link="camera_link"/>
   </joint>
@@ -178,7 +179,8 @@
       <material name="orange"/>
     </visual> -->
     <collision>
-      <origin xyz="0.005 0.011 0.013" rpy="0 0 0"/>
+      <origin xyz="0.05 0.011 0.013" rpy="0 0 0"/>
+      <!-- <origin xyz="0.005 0.011 0.013" rpy="0 0 0"/> -->
       <geometry>
         <box size="0.015 0.030 0.027"/>
       </geometry>

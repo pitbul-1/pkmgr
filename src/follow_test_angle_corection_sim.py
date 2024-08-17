@@ -26,14 +26,14 @@ class FollowerRobot:
         self.kd_linear = 0.05
         
         # PID gains for angular speed (distance-based angle control)
-        self.kp_angular = 2.0
+        self.kp_angular = 4.0
         self.ki_angular = 0.0
         self.kd_angular = 0.05
 
         # PID gains for orientation angle correction
-        self.kp_orientation = 1.0
+        self.kp_orientation = 1.5
         self.ki_orientation = 0.0
-        self.kd_orientation = 0.2
+        self.kd_orientation = 0.05
         
         # Subscribers and Publishers
         self.pose_sub = rospy.Subscriber('/aruco_simple/pose2', Pose, self.pose_callback)
