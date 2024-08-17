@@ -8,7 +8,7 @@ import os
 
 class Follower:
     def __init__(self):
-        rospy.init_node('leader_lidar_node', anonymous=True)
+        rospy.init_node('follower_lidar_node', anonymous=True)
 
         # Parameters for minimal and maximal detection distances
         self.min_detect_distance = rospy.get_param('~min_detect_distance', 0.2)  # Minimum detection distance (in meters)
@@ -19,7 +19,7 @@ class Follower:
         self.angle = None
 
         # Prepare the CSV file
-        self.csv_file = os.path.join(os.path.expanduser('~'), 'leader_lidar.csv')
+        self.csv_file = os.path.join(os.path.expanduser('~'), 'follower_lidar.csv')
         with open(self.csv_file, 'w') as file:
             writer = csv.writer(file)
             writer.writerow(['Time', 'Distance (m)', 'Angle (rad)'])  # Write the header
