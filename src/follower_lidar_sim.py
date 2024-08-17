@@ -12,7 +12,7 @@ class Follower:
 
         # Parameters for minimal and maximal detection distances
         self.min_detect_distance = rospy.get_param('~min_detect_distance', 0.2)  # Minimum detection distance (in meters)
-        self.max_detect_distance = rospy.get_param('~max_detect_distance', 0.6)  # Maximum detection distance (in meters)
+        self.max_detect_distance = rospy.get_param('~max_detect_distance', 0.8)  # Maximum detection distance (in meters)
 
         self.lidar_sub = rospy.Subscriber('/tb3_0/scan', LaserScan, self.lidar_callback)
         self.distance = None

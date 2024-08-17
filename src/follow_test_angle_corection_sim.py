@@ -31,7 +31,7 @@ class FollowerRobot:
         self.kd_angular = 0.05
 
         # PID gains for orientation angle correction
-        self.kp_orientation = 1.5
+        self.kp_orientation = 2.0
         self.ki_orientation = 0.0
         self.kd_orientation = 0.05
         
