@@ -1,2 +1,4 @@
-<node pkg="pkmgr" type="leader_odom.py" name="leader_recorder" output="screen"/>
-<node pkg="pkmgr" type="follower_odom.py" name="follower_recorder" output="screen"/>
+<launch>
+    <node pkg="pkmgr" type="leader_odom.py" name="leader_recorder" output="screen"/>
+    <node pkg="pkmgr" type="follower_odom.py" name="follower_recorder" output="screen"/>
+</launch>
