@@ -1,0 +1,20 @@
+<launch>
+  
+  <group ns="follow">
+
+    <!-- BRINGUP -->
+    <node pkg="rosserial_python" type="serial_node.py" name="follower_turtlebot3_core" output="screen">
+        <param name="port" value="/dev/ttyACM0"/>
+        <param name="baud" value="115200"/>
+        <param name="tf_prefix" value="follower"/>
+    </node>
+
+    <node pkg="turtlebot3_bringup" type="turtlebot3_diagnostics" name="turtlebot3_diagnostics" output="screen"/>
+
+    <!-- RASPI CAMERA -->
+    <include file="$(find raspicam_node)/launch/camerav2_1280x960.launch">
+        <arg name="enable_raw" value="True"/>
+    </include>
+
+  </group>
+</launch>

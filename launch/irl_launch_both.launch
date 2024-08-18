@@ -1,0 +1,11 @@
+<launch>
+
+  <include file="$(find pkmgr)/launch/turtlebot3_leader.launch">
+    <arg name="multi_robot_name" value="leader"/>
+  </include>
+
+  <include file="$(find pkmgr)/launch/turtlebot3_follower.launch">
+    <arg name="multi_robot_name" value="follower"/>
+  </include>
+
+</launch>
