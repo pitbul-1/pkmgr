@@ -36,5 +36,7 @@ class LeaderPathRecorder:
 if __name__ == '__main__':
     rospy.init_node('leader_path_recorder', anonymous=True)
     recorder = LeaderPathRecorder()
+    rate = rospy.Rate(10)  # 10 Hz
     rospy.on_shutdown(recorder.shutdown)
     rospy.spin()
+    rate.sleep()  # Oczekiwanie do następnej iteracji
