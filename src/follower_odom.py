@@ -8,6 +8,7 @@ import tf.transformations as tf
 class FollowerPathRecorder:
     def __init__(self):
         self.follower_path = []
+        self.counter = 0
         
         self.follower_sub = rospy.Subscriber('/odom', Odometry, self.follower_callback)
         
@@ -17,6 +18,10 @@ class FollowerPathRecorder:
         self.follower_writer.writerow(['time', 'x', 'y', 'z', 'theta'])
 
     def follower_callback(self, data):
+        self.counter += 1
+        if self.counter % 15 != 0:
+            return
+        
         x = data.pose.pose.position.x
         y = data.pose.pose.position.y
         z = data.pose.pose.position.z
@@ -34,9 +39,7 @@ class FollowerPathRecorder:
         self.follower_file.close()
 
 if __name__ == '__main__':
-    rospy.init_node('follower_path_recorder', anonymous=True)
+    rospy.init_node('leader_path_recorder', anonymous=True)
     recorder = FollowerPathRecorder()
-    rate = rospy.Rate(2)  # 10 Hz
     rospy.on_shutdown(recorder.shutdown)
     rospy.spin()
-    rate.sleep()  # Oczekiwanie do następnej iteracji
