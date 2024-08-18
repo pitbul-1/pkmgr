@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
         # Parameters
         straight_speed = 0.1  # meters per second
-        straight_distance = 1.5  # meters
+        straight_distance = 1  # meters
         angular_velocity_rad = 0.5  # radians per second
 
         # Turn angles
