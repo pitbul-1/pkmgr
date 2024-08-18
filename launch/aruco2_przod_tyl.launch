@@ -10,8 +10,8 @@
 
 
     <node pkg="aruco_ros" type="double" name="aruco_simple">    
-        <remap from="/camera_info" to="/raspicam_node/camera_info" />
-        <remap from="/image" to="/raspicam_node/image" />
+        <remap from="/camera_info" to="/follow/raspicam_node/camera_info" />
+        <remap from="/image" to="/follow/raspicam_node/image" />
         <param name="image_is_rectified" value="True"/>
         <param name="marker_size" value="$(arg markerSize)"/>
         <param name="marker_id1" value="$(arg marker1Id)"/>

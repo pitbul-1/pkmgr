@@ -17,8 +17,8 @@
 
 
     <node pkg="aruco_ros" type="double" name="aruco_front_rear">    
-        <remap from="/camera_info" to="/raspicam_node/camera_info" />
-        <remap from="/image" to="/raspicam_node/image" />
+        <remap from="/camera_info" to="/lead/raspicam_node/camera_info" />
+        <remap from="/image" to="/lead/raspicam_node/image" />
         <remap from="pose" to="/front_pose" />
         <remap from="pose2" to="/rear_pose" />
         <param name="image_is_rectified" value="True"/>
