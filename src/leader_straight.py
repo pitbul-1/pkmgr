@@ -9,7 +9,7 @@ def move_straight():
     rospy.init_node('turtlebot3_straight', anonymous=True)
     
     # Publisher to the /cmd_vel topic to control the robot's velocity
-    vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+    vel_pub = rospy.Publisher('lead/cmd_vel', Twist, queue_size=10)
     
     # Define the rate (10 Hz)
     rate = rospy.Rate(10)  # 10 Hz

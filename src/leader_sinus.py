@@ -9,7 +9,7 @@ def move_in_sine_wave():
     rospy.init_node('sine_wave_controller', anonymous=True)
 
     # Publisher to the /cmd_vel topic
-    cmd_vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+    cmd_vel_pub = rospy.Publisher('/lead/cmd_vel', Twist, queue_size=10)
 
     # Duration to drive in a sine wave
     driving_duration = 60.0  # seconds

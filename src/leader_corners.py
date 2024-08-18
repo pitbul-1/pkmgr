@@ -43,7 +43,7 @@ def rotate(angle, angular_velocity_rad):
 if __name__ == '__main__':
     try:
         rospy.init_node('turtlebot3_path_controller', anonymous=True)
-        pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        pub = rospy.Publisher('lead/cmd_vel', Twist, queue_size=10)
         rate = rospy.Rate(10)  # 10 Hz
         
         while rospy.Time.now().to_sec() == 0: # Wait for the clock to sync with the simulation

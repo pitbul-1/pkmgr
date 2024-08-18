@@ -10,7 +10,7 @@ class LeaderPathRecorder:
         self.follower_path = []
         self.counter = 0
         
-        self.follower_sub = rospy.Subscriber('/odom', Odometry, self.follower_callback)
+        self.follower_sub = rospy.Subscriber('/lead/odom', Odometry, self.follower_callback)
         
         self.follower_file = open('leader_path.csv', 'w')
         self.follower_writer = csv.writer(self.follower_file)

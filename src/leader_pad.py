@@ -8,7 +8,7 @@ class XboxTeleop:
     def __init__(self):
         rospy.init_node('xbox_teleop')
 
-        self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        self.pub = rospy.Publisher('lead/cmd_vel', Twist, queue_size=10)
         self.sub = rospy.Subscriber('/joy', Joy, self.joy_callback)
 
         self.twist = Twist()

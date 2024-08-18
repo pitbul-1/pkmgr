@@ -38,7 +38,7 @@ class FollowerRobot:
         self.pose_sub_front = rospy.Subscriber('/aruco_front_rear/pose', Pose, self.pose_callback_front)
         self.pose_sub_left = rospy.Subscriber('/aruco_sides/pose2', Pose, self.pose_callback_left)
         self.pose_sub_right = rospy.Subscriber('/aruco_simple/pose', Pose, self.pose_callback_right)
-        self.cmd_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        self.cmd_pub = rospy.Publisher('/follow/cmd_vel', Twist, queue_size=10)
         
         # Variables to store pose data and time
         self.tag_pose_back = None

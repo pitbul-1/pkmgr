@@ -31,7 +31,7 @@ class FollowerRobot:
         
         # Subscribers and Publishers
         self.pose_sub = rospy.Subscriber('/aruco_simple/pose2', Pose, self.pose_callback)
-        self.cmd_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        self.cmd_pub = rospy.Publisher('/follow/cmd_vel', Twist, queue_size=10)
         
         # Variables to store pose data and time
         self.tag_pose = None
