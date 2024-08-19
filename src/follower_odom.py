@@ -19,7 +19,7 @@ class FollowerPathRecorder:
 
     def follower_callback(self, data):
         self.counter += 1
-        if self.counter % 15 != 0:
+        if self.counter % 10 != 0:
             return
         
         x = data.pose.pose.position.x
