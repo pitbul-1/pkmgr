@@ -19,7 +19,7 @@ def move_straight():
 
     # Set linear velocity (v) and angular velocity (w) to move in a circle
     duration = 40.0  # seconds
-    linear_speed = 0.05  # meters per second (you can adjust this value)
+    linear_speed = 0.1  # meters per second (you can adjust this value)
     angular_speed = 0.0  # rad/s, v = r * w
 
     # Set the velocity in the Twist message
