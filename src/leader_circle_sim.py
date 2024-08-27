@@ -18,9 +18,9 @@ def move_circle():
     vel_msg = Twist()
 
     # Set linear velocity (v) and angular velocity (w) to move in a circle
-    duration = 30.0  # seconds
+    duration = 50.0  # seconds
     radius = 1.0  # meter
-    linear_speed = 0.1  # meters per second (you can adjust this value)
+    linear_speed = 0.08  # meters per second (you can adjust this value)
     angular_speed = linear_speed / radius  # rad/s, v = r * w
 
     # Set the velocity in the Twist message

@@ -14,26 +14,30 @@ class FollowerRobot:
         # Parameters
         self.target_distance = 0.7  # Target distance from the leader
         self.target_angle = 1.570796327  # Target angle relative to the leader (in radians)
-        self.tag_to_leader_offset = 0.07  # Offset of the tag from the center of the leader robot
-        self.camera_to_follower_offset = 0.06  # Offset of the camera from the center of the follower robot
+        self.tag_to_leader_offset = 0.0  # Offset of the tag from the center of the leader robot 0.115
+        self.camera_to_follower_offset = -0.026  # Offset of the camera from the center of the follower robot
         self.max_linear_speed = 0.22  # Maximum linear speed
         self.max_angular_speed = 2.84  # Maximum angular speed
         self.timeout_duration = 1.0  # Timeout duration in seconds
         
         # PID gains for linear speed
-        self.kp_linear = 1.0
-        self.ki_linear = 0.0
-        self.kd_linear = 0.05
+        self.kp_linear = 5.286 #1.0
+        self.ki_linear = 4.2923 #0.0
+        self.kd_linear = 1.5623 #0.05
         
         # PID gains for angular speed (distance-based angle control)
-        self.kp_angular = 4.0
-        self.ki_angular = 0.0
-        self.kd_angular = 0.05
+        self.kp_angular = 0.0 #4.0
+        self.ki_angular = 0.0 #0.0
+        self.kd_angular = 0.0 #0.05
 
         # PID gains for orientation angle correction
-        self.kp_orientation = 2.0
-        self.ki_orientation = 0.0
-        self.kd_orientation = 0.05
+        self.kp_orientation = 0.0 #2.0
+        self.ki_orientation = 0.0 #0.0
+        self.kd_orientation = 0.0 #0.05
+
+        # pid 2 and 3 proporcions
+        self.pid_angular_proportion = 0.0
+        self.pid_orientation_proportion = 0.0
         
         # Subscribers and Publishers
         self.pose_sub = rospy.Subscriber('/aruco_simple/pose2', Pose, self.pose_callback)
@@ -126,8 +130,10 @@ class FollowerRobot:
                                   self.kd_orientation * orientation_error_derivative)
         
         # Combine angular speed from distance-based angle control and orientation correction
-        raw_angular_speed += orientation_correction
+        #raw_angular_speed += orientation_correction
         
+        raw_angular_speed = self.pid_angular_proportion * raw_angular_speed + self.pid_orientation_proportion * orientation_correction
+
         # Clamp the raw speeds to their maximum values
         linear_speed = max(min(raw_linear_speed, self.max_linear_speed), -self.max_linear_speed)
         angular_speed = max(min(raw_angular_speed, self.max_angular_speed), -self.max_angular_speed)
