@@ -8,7 +8,7 @@ class XboxTeleop:
     def __init__(self):
         rospy.init_node('xbox_teleop')
 
-        self.pub = rospy.Publisher('lead/cmd_vel', Twist, queue_size=10)
+        self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
         self.sub = rospy.Subscriber('/joy', Joy, self.joy_callback)
 
         self.twist = Twist()
@@ -18,8 +18,8 @@ class XboxTeleop:
         self.axis_angular = 0  # Right stick horizontal axis
 
         # Linear and angular speed multipliers
-        self.linear_speed = 0.1
-        self.angular_speed = 0.6
+        self.linear_speed = 0.2
+        self.angular_speed = 1.6
 
     def joy_callback(self, data):
         self.twist.linear.x = self.linear_speed * data.axes[self.axis_linear]

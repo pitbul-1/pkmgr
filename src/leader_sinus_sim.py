@@ -17,7 +17,7 @@ def move_in_sine_wave():
     # Define the parameters for the sine wave
     amplitude = 1.0  # Amplitude of the sine wave in meters
     wavelength = 3.0  # Wavelength of the sine wave in meters
-    linear_speed = 0.1  # Constant linear speed along the x-axis in m/s
+    linear_speed = 0.05  # Constant linear speed along the x-axis in m/s
     frequency = linear_speed / wavelength  # Frequency of the sine wave
     angular_speed_amplitude = 2 * math.pi * frequency * amplitude  # Max angular speed to create sine wave
 
